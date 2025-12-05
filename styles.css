@@ -6,11 +6,13 @@ html, body {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
   /* Enable smooth scrolling on mobile */
   -webkit-overflow-scrolling: touch;
   overflow-scrolling: touch;
-  /* Prevent pull-to-refresh on mobile */
-  overscroll-behavior-y: contain;
+  /* Allow scrolling but prevent bounce effect */
+  overscroll-behavior-y: auto;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -22,9 +24,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #222;
   position: relative;
-  /* Improve touch scrolling on mobile */
-  touch-action: pan-y;
+  /* Improve touch scrolling on mobile - allow vertical panning */
+  touch-action: pan-y pan-x;
   -webkit-tap-highlight-color: transparent;
+  /* Ensure body can scroll on mobile */
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .orange-header { display: none; }
@@ -617,6 +622,12 @@ body {
 
 .icon-scroll-panel {
   min-height: 120vh;
+  /* Ensure panels are scrollable on mobile */
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  /* Ensure panels take up space for scrolling */
+  display: block;
+  width: 100%;
 }
 
 .icon-item {
