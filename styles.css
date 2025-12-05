@@ -6,6 +6,11 @@ html, body {
   height: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  /* Enable smooth scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
 }
 
 body {
@@ -17,6 +22,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #222;
   position: relative;
+  /* Improve touch scrolling on mobile */
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .orange-header { display: none; }
@@ -431,6 +439,12 @@ body {
   background-repeat: no-repeat;
   opacity: 0;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: opacity;
+  /* Ensure proper rendering on mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .page-bg-layer.visible { 
