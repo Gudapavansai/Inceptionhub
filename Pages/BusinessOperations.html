@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Operations | Professional Business Solutions</title>
+    <script src="../js/script.js"></script>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #534bae;
+            --primary-dark: #000051;
+            --secondary: #00695c;
+            --secondary-light: #439889;
+            --secondary-dark: #003d33;
+            --accent: #ff6f00;
+            --accent-light: #ff9f40;
+            --accent-dark: #c43e00;
+            --purple: #7b1fa2;
+            --purple-light: #ae52d4;
+            --purple-dark: #4a0072;
+            --teal: #00796b;
+            --teal-light: #48a999;
+            --teal-dark: #004c40;
+            --dark: #121212;
+            --dark-light: #2d2d2d;
+            --light: #f5f7fa;
+            --muted: #6c757d;
+            --muted-light: #a0a0a0;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --maxw: 1300px;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.2s ease;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            padding: 25px 0 100px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23000000" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center bottom;
+            opacity: 0.3;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            position: relative;
+            padding: 6px 0;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: var(--transition-fast);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-text {
+            animation: slideInLeft 1s ease;
+        }
+
+        .header-title {
+            font-size: 40px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 28px;
+            max-width: 500px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 35px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: white;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .header-visual {
+            position: relative;
+            animation: slideInRight 1s ease;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            border-radius: var(--radius);
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .contact-form:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-title {
+            font-size: 20px;
+            margin-bottom: 18px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 111, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 111, 0, 0.4);
+        }
+
+        /* Services Section - Smaller Cards */
+        .services {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .section-title {
+            font-size: 36px;
+            margin-bottom: 14px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(0);
+            opacity: 0;
+            min-height: 320px;
+        }
+
+        .service-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-header {
+            padding: 22px 22px 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 22px;
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .service-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .service-description {
+            color: var(--muted);
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .service-features {
+            padding: 0 22px;
+            flex-grow: 1;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            transition: var(--transition-fast);
+            transform: translateX(0);
+        }
+
+        .service-card:hover .feature-item {
+            transform: translateX(3px);
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .feature-icon {
+            transform: scale(1.05);
+        }
+
+        .feature-text {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .service-footer {
+            padding: 16px 22px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-footer {
+            transform: translateY(-3px);
+        }
+
+        .service-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .service-note {
+            font-size: 12px;
+            color: var(--muted-light);
+            margin-top: 2px;
+        }
+
+        .btn-card {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            width: auto;
+        }
+
+        .btn-card:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Color variants for service cards */
+        .service-card:nth-child(1) .service-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+        .service-card:nth-child(1) .feature-icon {
+            background: rgba(30, 64, 175, 0.1);
+            color: var(--primary);
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+        }
+        .service-card:nth-child(2) .feature-icon {
+            background: rgba(15, 118, 110, 0.1);
+            color: var(--secondary);
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        }
+        .service-card:nth-child(3) .feature-icon {
+            background: rgba(255, 111, 0, 0.1);
+            color: var(--accent);
+        }
+
+        .service-card:nth-child(4) .service-icon {
+            background: linear-gradient(135deg, var(--purple), var(--purple-light));
+        }
+        .service-card:nth-child(4) .feature-icon {
+            background: rgba(123, 31, 162, 0.1);
+            color: var(--purple);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+         
+            border-radius: 50%;
+        }
+
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: 36px;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            margin-bottom: 28px;
+            opacity: 0.9;
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--secondary);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            width: auto;
+            padding: 12px 28px;
+        }
+
+        .btn-light:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 0 30px;
+            background: var(--dark);
+            color: white;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 18px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 10px;
+        }
+
+        .footer-link a {
+            color: var(--muted-light);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            color: var(--muted-light);
+            font-size: 13px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 14px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Floating buttons */
+        .whatsapp-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 55px;
+            height: 55px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transition: var(--transition);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6);
+        }
+
+        .back-home {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .back-home:hover {
+            background: var(--dark-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .header-title {
+                font-size: 32px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .header-stats {
+                justify-content: space-between;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .header-title {
+                font-size: 28px;
+            }
+            
+            .header-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .cta-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Logo + Menu -->
+    <div class="logo logo-pill">
+        <img src="../images/logo.png" class="logo-img" alt="InceptionHub">
+        <span class="logo-divider" aria-hidden="true"></span>
+        <button class="logo-menu" aria-label="Open menu">
+            <span class="logo-hamburger" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+            <span class="logo-menu-text">MENU</span>
+        </button>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="nav-links">
+                    <!-- <a href="#" class="nav-link">Services</a>
+                    <a href="#" class="nav-link">Pricing</a>
+                    <a href="#" class="nav-link">About</a>
+                    <a href="#" class="nav-link">Contact</a>
+                    <a href="../index.html" class="nav-link">Home</a> -->
+                </div>
+            </nav>
+
+            <div class="header-content">
+                <div class="header-text">
+                    <h1 class="header-title">Professional Business Solutions</h1>
+                    <p class="header-subtitle">We provide comprehensive services across payroll, accounting, sales, and marketing to help your business thrive.</p>
+                    <div class="header-stats">
+                        <div class="stat">
+                            <!-- <div class="stat-number">15+</div>
+                            <div class="stat-label">Years Experience</div> -->
+                        </div>
+                        <div class="stat">
+                            <!-- <div class="stat-number">500+</div>
+                            <div class="stat-label">Clients Served</div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="header-visual">
+                    <div class="contact-form">
+                        <h3 class="form-title">Get Free Consultation</h3>
+                        <form id="consultationForm">
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-input" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-input" placeholder="Email Address" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calendar-check"></i> Schedule Free Consultation
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Professional Departments</h2>
+                <p class="section-subtitle">Our specialized teams work together to provide comprehensive business solutions tailored to your needs</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Payroll Department -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="service-title">Payroll</h3>
+                        <p class="service-description">Streamlined payroll processing, tax compliance, and employee compensation management to ensure accuracy and timeliness.</p>
+                    </div>
+                    <div class="service-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Automated payroll processing</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Tax compliance management</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Employee self-service portal</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            ₹2,999
+                            <div class="service-note">Per month</div>
+                        </div>
+                        <button class="btn-card">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- Accounting Department -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="service-title">Accounting</h3>
+                        <p class="service-description">Comprehensive financial reporting, bookkeeping, budgeting, and strategic financial planning for sustainable growth.</p>
+                    </div>
+                    <div class="service-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Real-time financial reporting</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Bookkeeping & reconciliation</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Budget planning & analysis</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            ₹4,999
+                            <div class="service-note">Per month</div>
+                        </div>
+                        <button class="btn-card">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- Sales Department -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="service-title">Sales</h3>
+                        <p class="service-description">Strategic sales planning, customer relationship management, and revenue optimization to drive business growth.</p>
+                    </div>
+                    <div class="service-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">CRM implementation & training</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Sales strategy development</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Revenue growth optimization</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            ₹6,999
+                            <div class="service-note">Per month</div>
+                        </div>
+                        <button class="btn-card">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- Marketing Department -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3 class="service-title">Marketing</h3>
+                        <p class="service-description">Data-driven marketing strategies, brand development, digital campaigns, and market analysis to expand your reach.</p>
+                    </div>
+                    <div class="service-features">
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Digital marketing campaigns</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Brand development & strategy</span>
+                            </li>
+                            <li class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <span class="feature-text">Market research & analysis</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="service-footer">
+                        <div class="service-price">
+                            ₹8,999
+                            <div class="service-note">Per month</div>
+                        </div>
+                        <button class="btn-card">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Begin Your Business Journey Today</h2>
+                <p class="cta-text">Our team of experts will guide you through integrated business solutions and help you streamline operations for sustainable growth.</p>
+                <a href="#" class="btn btn-light">Schedule Free Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Inception Hub</h3>
+                    <p style="color: var(--muted-light); margin-bottom: 20px;">We deliver comprehensive business operations services to help your business succeed through integrated payroll, accounting, sales, and marketing solutions.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Payroll Services</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Accounting & Finance</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Sales Strategy</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Marketing Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Business Insights</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Financial Planning</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Sales Tips</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Marketing Guides</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#"><i class="fas fa-map-marker-alt"></i> Mumbai, India</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-envelope"></i> contact@inceptionhub.com</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-clock"></i> Mon-Sat: 9AM-7PM</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-text">© 2025 Inception Hub. All rights reserved.</div>
+                <div class="footer-text">
+                    <a href="#" style="color: var(--muted-light); text-decoration: none; margin-right: 16px;">Privacy Policy</a>
+                    <a href="#" style="color: var(--muted-light); text-decoration: none;">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/919999999999" class="whatsapp-btn" aria-label="Contact us on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="../js/script.js" defer></script>
+    <script>
+        // Enhanced animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe service cards for animation
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach((card, index) => {
+                // card.style.transition = opacity 0.5s ease ${index * 0.15}s, transform 0.5s ease ${index * 0.15}s;
+                observer.observe(card);
+            });
+
+            // Add floating animation to header elements
+            const headerElements = document.querySelectorAll('.header-text, .header-visual');
+            headerElements.forEach(el => {
+                el.style.animation = 'float 6s ease-in-out infinite';
+            });
+
+            // Form submission handler
+            const form = document.getElementById('consultationForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your interest! Our team will contact you shortly to schedule your free consultation.');
+                form.reset();
+            });
+
+            // Add CSS for floating animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-8px); }
+                    100% { transform: translateY(0px); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

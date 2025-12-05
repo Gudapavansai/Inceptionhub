@@ -1,0 +1,1532 @@
+// Disable browser scroll restoration to ensure we control scroll position
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+// Reset function to ensure clean state on every reload
+function resetPageState() {
+  // Reset scroll position to top
+  if (
+    window.scrollY !== 0 ||
+    document.documentElement.scrollTop !== 0 ||
+    document.body.scrollTop !== 0
+  ) {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+  // Reset footer visibility
+  const footer = document.querySelector(".main-footer");
+  if (footer) {
+    footer.classList.remove("footer-visible");
+  }
+
+  // Reset progress bar
+  const progressBar = document.querySelector(".page-progress .bar");
+  const progressPct = document.querySelector(".page-progress .pct");
+  if (progressBar) {
+    progressBar.style.width = "0%";
+  }
+  if (progressPct) {
+    progressPct.textContent = "0%";
+  }
+}
+
+// Run reset immediately, before DOMContentLoaded
+resetPageState();
+
+// Also run on page load events to catch any late loads
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", resetPageState);
+} else {
+  resetPageState();
+}
+window.addEventListener("load", resetPageState);
+window.addEventListener("beforeunload", function () {
+  // Reset scroll position before page unloads
+  window.scrollTo(0, 0);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const stageConfigs = [
+    {
+      type: "hero",
+      bg: 'url("images/BG.png")',
+    },
+    {
+      type: "icon",
+      iconIndex: 0,
+      bg: 'url("images/index0.png")',
+      title: "Registration",
+      text: "Secure your business identity with effortless registration support.",
+      cta: "Start Registration",
+      iconSrc: "images/startup.png",
+      ctaIndex: 0,
+    },
+    {
+      type: "icon",
+      iconIndex: 1,
+      bg: 'url("images/index1.png")',
+      title: "Legal Registration",
+      text: "Stay compliant with expert-backed legal filings and approvals.",
+      cta: "Begin Legal Setup",
+      iconSrc: "images/legal.png",
+      ctaIndex: 1,
+    },
+    {
+      type: "icon",
+      iconIndex: 2,
+      bg: 'url("images/index2.png")',
+      title: "Online Presence",
+      text: "Launch your digital footprint with branded sites and assets.",
+      cta: "Build Presence",
+      iconSrc: "images/online.png",
+      ctaIndex: 2,
+    },
+    {
+      type: "icon",
+      iconIndex: 3,
+      bg: 'url("images/index3.png")',
+      title: "Business Operations",
+      text: "Optimize daily operations with streamlined processes and tools.",
+      cta: "Improve Operations",
+      iconSrc: "images/business-operation.png",
+      ctaIndex: 3,
+    },
+    {
+      type: "icon",
+      iconIndex: 4,
+      bg: 'url("images/index4.png")',
+      title: "Compliances",
+      text: "Keep your organisation audit-ready with proactive compliance care.",
+      cta: "Stay Compliant",
+      iconSrc: "images/compliances.png",
+      ctaIndex: 4,
+    },
+    {
+      type: "footer",
+      bg: 'url("images/index4.png")',
+    },
+  ];
+
+  const TOTAL_STAGES = stageConfigs.length;
+
+  const icons = Array.from(
+    document.querySelectorAll(".icons-section .icon-item")
+  );
+  if (!icons.length) return;
+
+  const panels = Array.from(
+    document.querySelectorAll(".icon-scroll-panel")
+  );
+  const heroWrapper = document.querySelector(".hero-wrapper");
+  const stageOverlay = document.querySelector(".stage-overlay");
+  const stageIcon = stageOverlay?.querySelector(".stage-icon");
+  const stageTitle = stageOverlay?.querySelector(".stage-title");
+  const stageText = stageOverlay?.querySelector(".stage-text");
+  const stageCta = stageOverlay?.querySelector(".stage-cta");
+  const pageMap = [
+    "Pages/Registration.html",
+    "Pages/LegalRegistration.html",
+    "Pages/OnlinePresence.html",
+    "Pages/BusinessOperations.html",
+    "Pages/Compliances.html",
+  ];
+  const fallbackPageMap = pageMap.map((p) => p.replace(/^Pages\//, "pages/"));
+  const footer = document.querySelector(".main-footer");
+
+  function navigateToStagePage(iconIdx) {
+    const targetPath = pageMap[iconIdx] || fallbackPageMap[iconIdx];
+    if (!targetPath) return;
+    setTimeout(() => {// Disable browser scroll restoration to ensure we control scroll position
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+// Reset function to ensure clean state on every reload
+function resetPageState() {
+  // Reset scroll position to top
+  if (
+    window.scrollY !== 0 ||
+    document.documentElement.scrollTop !== 0 ||
+    document.body.scrollTop !== 0
+  ) {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+  // Reset footer visibility
+  const footer = document.querySelector(".main-footer");
+  if (footer) {
+    footer.classList.remove("footer-visible");
+  }
+
+  // Reset progress bar
+  const progressBar = document.querySelector(".page-progress .bar");
+  const progressPct = document.querySelector(".page-progress .pct");
+  if (progressBar) {
+    progressBar.style.width = "0%";
+  }
+  if (progressPct) {
+    progressPct.textContent = "0%";
+  }
+}
+
+// Run reset immediately, before DOMContentLoaded
+resetPageState();
+
+// Also run on page load events to catch any late loads
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", resetPageState);
+} else {
+  resetPageState();
+}
+window.addEventListener("load", resetPageState);
+window.addEventListener("beforeunload", function () {
+  // Reset scroll position before page unloads
+  window.scrollTo(0, 0);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const stageConfigs = [
+    {
+      type: "hero",
+      bg: 'url("images/BG.png")',
+    },
+    {
+      type: "icon",
+      iconIndex: 0,
+      bg: 'url("images/index0.png")',
+      title: "Registration",
+      text: "Secure your business identity with effortless registration support.",
+      cta: "Start Registration",
+      iconSrc: "images/startup.png",
+    },
+    {
+      type: "icon",
+      iconIndex: 1,
+      bg: 'url("images/index1.png")',
+      title: "Legal Registration",
+      text: "Stay compliant with expert-backed legal filings and approvals.",
+      cta: "Begin Legal Setup",
+      iconSrc: "images/legal.png",
+    },
+    {
+      type: "icon",
+      iconIndex: 2,
+      bg: 'url("images/index2.png")',
+      title: "Online Presence",
+      text: "Launch your digital footprint with branded sites and assets.",
+      cta: "Build Presence",
+      iconSrc: "images/online.png",
+    },
+    {
+      type: "icon",
+      iconIndex: 3,
+      bg: 'url("images/index3.png")',
+      title: "Business Operations",
+      text: "Optimize daily operations with streamlined processes and tools.",
+      cta: "Improve Operations",
+      iconSrc: "images/business-operation.png",
+    },
+    {
+      type: "icon",
+      iconIndex: 4,
+      bg: 'url("images/index4.png")',
+      title: "Compliances",
+      text: "Keep your organisation audit-ready with proactive compliance care.",
+      cta: "Stay Compliant",
+      iconSrc: "images/compliances.png",
+    },
+    {
+      type: "footer",
+      bg: 'url("images/index4.png")',
+    },
+  ];
+
+  const TOTAL_STAGES = stageConfigs.length;
+
+  const icons = Array.from(
+    document.querySelectorAll(".icons-section .icon-item")
+  );
+  if (!icons.length) return;
+
+  const panels = Array.from(
+    document.querySelectorAll(".icon-scroll-panel")
+  );
+  const heroWrapper = document.querySelector(".hero-wrapper");
+  const stageOverlay = document.querySelector(".stage-overlay");
+  const stageIcon = stageOverlay?.querySelector(".stage-icon");
+  const stageTitle = stageOverlay?.querySelector(".stage-title");
+  const stageText = stageOverlay?.querySelector(".stage-text");
+  const stageCta = stageOverlay?.querySelector(".stage-cta");
+  const pageMap = [
+    "Pages/Registration.html",
+    "Pages/LegalRegistration.html",
+    "Pages/OnlinePresence.html",
+    "Pages/BusinessOperations.html",
+    "Pages/Compliances.html",
+  ];
+  const fallbackPageMap = pageMap.map((p) => p.replace(/^Pages\//, "pages/"));
+  const footer = document.querySelector(".main-footer");
+
+  // Global variable to track current CTA index
+  window.currentCtaIndex = null;
+
+  function navigateToStagePage(iconIdx) {
+    const targetPath = pageMap[iconIdx] || fallbackPageMap[iconIdx];
+    if (!targetPath) return;
+    setTimeout(() => {
+      window.location.href = targetPath;
+    }, 500);
+  }
+
+  // Background layers
+  const bgLayer = document.createElement("div");
+  bgLayer.className = "page-bg-layer";
+  document.body.appendChild(bgLayer);
+
+  const bgLayer2 = document.createElement("div");
+  bgLayer2.className = "page-bg-layer page-bg-layer-2";
+  document.body.appendChild(bgLayer2);
+
+  let currentBgLayer = bgLayer;
+  let nextBgLayer = bgLayer2;
+  let isTransitioningBg = false;
+  let isFirstRender = true;
+
+  // Progress bar
+  const progressWrap = document.createElement("div");
+  progressWrap.className = "page-progress";
+  progressWrap.setAttribute("aria-hidden", "true");
+  const progressBar = document.createElement("div");
+  progressBar.className = "bar";
+  const pct = document.createElement("div");
+  pct.className = "pct";
+  pct.textContent = "0%";
+  progressWrap.appendChild(progressBar);
+  progressWrap.appendChild(pct);
+  document.body.appendChild(progressWrap);
+
+  // smooth movement
+  progressBar.style.transition = "width 1s ease-in-out";
+
+  // Stage state
+  let currentStage = 0;
+  let previousStage = 0;
+
+  // Scroll snap state
+  let isAnimatingScroll = false;
+  const SCROLL_LOCK_TIME = 900;
+
+  function playStageRevealAnimation() {
+    if (!stageIcon || !stageCta) return;
+    stageIcon.classList.add("no-transition");
+    stageCta.classList.add("no-transition");
+    stageIcon.classList.remove("revealed");
+    stageCta.classList.remove("revealed");
+    void stageIcon.offsetWidth;
+    stageIcon.classList.remove("no-transition");
+    stageCta.classList.remove("no-transition");
+    requestAnimationFrame(() => {
+      stageIcon.classList.add("revealed");
+      stageCta.classList.add("revealed");
+    });
+  }
+
+  function playHeroRevealAnimation() {
+    const heroTagline = document.querySelector(".hero-tagline");
+    const watchBtn = document.querySelector(".watch-btn");
+    if (!heroTagline || !watchBtn) return;
+
+    heroTagline.classList.add("no-transition");
+    watchBtn.classList.add("no-transition");
+    heroTagline.classList.remove("hero-revealed");
+    watchBtn.classList.remove("hero-revealed");
+    void heroTagline.offsetWidth;
+    void watchBtn.offsetWidth;
+
+    heroTagline.classList.remove("no-transition");
+    watchBtn.classList.remove("no-transition");
+    requestAnimationFrame(() => {
+      heroTagline.classList.add("hero-revealed");
+      watchBtn.classList.add("hero-revealed");
+    });
+  }
+
+  function setBackgroundImmediate(newBg) {
+    const newBgValue = newBg || "transparent";
+    currentBgLayer.style.backgroundImage = newBgValue;
+    if (newBgValue !== "transparent") {
+      currentBgLayer.style.opacity = "1";
+      currentBgLayer.classList.add("visible");
+    } else {
+      currentBgLayer.style.opacity = "0";
+      currentBgLayer.classList.remove("visible");
+    }
+  }
+
+  function setBackgroundWithFade(newBg) {
+    if (isTransitioningBg) return;
+
+    const newBgValue = newBg || "transparent";
+    const currentBgValue = currentBgLayer.style.backgroundImage;
+
+    if (
+      newBgValue === currentBgValue &&
+      currentBgLayer.classList.contains("visible")
+    ) {
+      return;
+    }
+
+    if (
+      !currentBgLayer.style.backgroundImage ||
+      currentBgLayer.style.backgroundImage === "none" ||
+      !currentBgLayer.classList.contains("visible")
+    ) {
+      setBackgroundImmediate(newBgValue);
+      return;
+    }
+
+    isTransitioningBg = true;
+
+    nextBgLayer.style.backgroundImage = newBgValue;
+    nextBgLayer.style.opacity = "0";
+    nextBgLayer.classList.add("visible");
+
+    void nextBgLayer.offsetWidth;
+
+    currentBgLayer.style.opacity = "0";
+    nextBgLayer.style.transition =
+      "opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+    nextBgLayer.style.opacity = "1";
+
+    setTimeout(() => {
+      currentBgLayer.classList.remove("visible");
+      currentBgLayer.style.opacity = "0";
+      currentBgLayer.style.backgroundImage = "";
+
+      const temp = currentBgLayer;
+      currentBgLayer = nextBgLayer;
+      nextBgLayer = temp;
+
+      isTransitioningBg = false;
+    }, 800);
+  }
+
+  function updateProgressForStage(stageIndex) {
+    if (TOTAL_STAGES <= 0) {
+      progressBar.style.width = "0%";
+      pct.textContent = "0%";
+      return;
+    }
+    const clampedIndex = Math.max(0, Math.min(stageIndex, TOTAL_STAGES - 1));
+    const percent = Math.round(((clampedIndex + 1) / TOTAL_STAGES) * 100);
+    progressBar.style.width = percent + "%";
+    pct.textContent = percent + "%";
+  }
+
+  function renderStage(index) {
+    const stage = stageConfigs[index];
+
+    icons.forEach((icon, idx) => {
+      icon.classList.toggle(
+        "focused",
+        stage?.type === "icon" && stage.iconIndex === idx
+      );
+    });
+
+    if (!stage) {
+      setBackgroundWithFade("transparent");
+      setTimeout(() => {
+        currentBgLayer.classList.remove("visible");
+        nextBgLayer.classList.remove("visible");
+      }, 800);
+      stageOverlay?.classList.remove("active");
+      heroWrapper?.classList.remove("stage-muted");
+      if (footer) footer.classList.remove("footer-visible");
+      if (previousStage > 0) {
+        setTimeout(() => {
+          playHeroRevealAnimation();
+        }, 50);
+      }
+      return;
+    }
+
+    if (isFirstRender) {
+      setBackgroundImmediate(stage.bg || "transparent");
+      isFirstRender = false;
+    } else {
+      setBackgroundWithFade(stage.bg || "transparent");
+    }
+
+    if (stage.type === "icon" && stageOverlay) {
+      heroWrapper?.classList.add("stage-muted");
+      stageIcon.src = stage.iconSrc || "";
+      stageIcon.alt = stage.title || "";
+      stageTitle.textContent = stage.title || "";
+      stageText.textContent = stage.text || "";
+      stageCta.textContent = stage.cta || "Learn more";
+      
+      // Store the icon index for CTA button click handler
+      window.currentCtaIndex = stage.iconIndex;
+      
+      playStageRevealAnimation();
+      stageOverlay.classList.add("active");
+      if (footer) footer.classList.remove("footer-visible");
+    } else if (stage.type === "footer") {
+      if (stageOverlay) stageOverlay.classList.remove("active");
+      if (heroWrapper) heroWrapper.classList.remove("stage-muted");
+      if (stageIcon) stageIcon.classList.remove("revealed");
+      if (stageCta) stageCta.classList.remove("revealed");
+      if (footer) footer.classList.add("footer-visible");
+    } else {
+      heroWrapper?.classList.remove("stage-muted");
+      if (stageIcon) stageIcon.classList.remove("revealed");
+      if (stageCta) stageCta.classList.remove("revealed");
+      if (stageOverlay) stageOverlay.classList.remove("active");
+      if (footer) footer.classList.remove("footer-visible");
+    }
+
+    updateProgressForStage(index);
+  }
+
+  function goToStage(targetStage, options = {}) {
+    const { animateScroll = true, fromUserScroll = false } = options;
+
+    if (targetStage < 0 || targetStage >= TOTAL_STAGES) return;
+    if (targetStage === currentStage) return;
+    if (fromUserScroll && isAnimatingScroll) return;
+
+    previousStage = currentStage;
+    currentStage = targetStage;
+    renderStage(currentStage);
+
+    const stage = stageConfigs[currentStage];
+
+    if (stage.type === "footer") {
+      isAnimatingScroll = true;
+      setTimeout(() => {
+        isAnimatingScroll = false;
+      }, SCROLL_LOCK_TIME);
+      return;
+    }
+
+    if (currentStage === 0) {
+      isAnimatingScroll = true;
+      if (animateScroll) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo(0, 0);
+      }
+      setTimeout(() => {
+        isAnimatingScroll = false;
+      }, animateScroll ? SCROLL_LOCK_TIME : 0);
+    } else {
+      const targetPanel = panels.find(
+        (panel) =>
+          parseInt(panel.getAttribute("data-stage-index"), 10) === currentStage
+      );
+
+      if (targetPanel) {
+        isAnimatingScroll = true;
+        targetPanel.scrollIntoView({
+          behavior: animateScroll ? "smooth" : "auto",
+          block: "start",
+        });
+        setTimeout(
+          () => {
+            isAnimatingScroll = false;
+          },
+          animateScroll ? SCROLL_LOCK_TIME : 0
+        );
+      } else {
+        isAnimatingScroll = true;
+        setTimeout(() => {
+          isAnimatingScroll = false;
+        }, SCROLL_LOCK_TIME);
+      }
+    }
+  }
+
+  function resetToIndexZero() {
+    currentStage = 0;
+    previousStage = 0;
+    isAnimatingScroll = false;
+
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    if (footer) {
+      footer.classList.remove("footer-visible");
+    }
+
+    bgLayer.classList.remove("visible");
+    bgLayer.style.backgroundImage = "";
+    bgLayer.style.opacity = "0";
+    bgLayer2.classList.remove("visible");
+    bgLayer2.style.backgroundImage = "";
+    bgLayer2.style.opacity = "0";
+    isTransitioningBg = false;
+    currentBgLayer = bgLayer;
+    nextBgLayer = bgLayer2;
+
+    isFirstRender = true;
+
+    icons.forEach((icon) => {
+      icon.classList.remove("focused");
+    });
+
+    renderStage(0);
+    if (stageOverlay) {
+      stageOverlay.classList.remove("active");
+    }
+    if (heroWrapper) {
+      heroWrapper.classList.remove("stage-muted");
+    }
+  }
+
+  resetToIndexZero();
+  setTimeout(resetToIndexZero, 0);
+  setTimeout(resetToIndexZero, 10);
+  setTimeout(resetToIndexZero, 100);
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      setTimeout(() => {
+        resetToIndexZero();
+      }, 50);
+    }
+  });
+
+  window.addEventListener("focus", function () {
+    setTimeout(function () {
+      if (window.scrollY === 0) {
+        resetToIndexZero();
+      }
+    }, 10);
+  });
+
+  // SNAP SCROLL
+  function handleWheel(e) {
+    e.preventDefault();
+    if (isAnimatingScroll) return;
+
+    const delta = e.deltaY;
+    if (Math.abs(delta) < 10) return;
+
+    if (delta > 0) {
+      const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+      goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+    } else {
+      const prevStage = Math.max(0, currentStage - 1);
+      goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+    }
+  }
+
+  window.addEventListener("wheel", handleWheel, { passive: false });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (isAnimatingScroll) return;
+
+    if (e.key === "ArrowDown" || e.key === "PageDown") {
+      e.preventDefault();
+      const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+      goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+    } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+      e.preventDefault();
+      const prevStage = Math.max(0, currentStage - 1);
+      goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+    }
+  });
+
+  // ICON CLICK
+  icons.forEach((icon, idx) => {
+    icon.addEventListener("click", (e) => {
+      const sidebar = document.querySelector(".inceptionhub-sidebar");
+      if (sidebar && sidebar.classList.contains("open")) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      const stageIndex = idx + 1;
+      goToStage(stageIndex, { animateScroll: true });
+
+      navigateToStagePage(idx);
+      return false;
+    });
+  });
+
+  // CTA BUTTON CLICK HANDLER
+  if (stageCta) {
+    stageCta.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const ctaIndex = window.currentCtaIndex;
+      
+      if (ctaIndex === null || ctaIndex === undefined) {
+        console.warn("No CTA index set");
+        return false;
+      }
+
+      if (ctaIndex < 0 || ctaIndex >= pageMap.length) {
+        console.warn("Invalid CTA index:", ctaIndex);
+        return false;
+      }
+
+      navigateToStagePage(ctaIndex);
+      return false;
+    });
+  }
+});
+
+/* InceptionHub menu/sidebar injector with hamburger->X morph */
+(function () {
+  "use strict";
+
+  const menuButton = document.querySelector(".logo.logo-pill .logo-menu");
+  if (!menuButton) return;
+
+  if (menuButton.__inceptionhub_menu_installed) return;
+  menuButton.__inceptionhub_menu_installed = true;
+
+  let overlay = document.querySelector(".inceptionhub-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "inceptionhub-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.tabIndex = -1;
+    document.body.appendChild(overlay);
+  }
+
+  let sidebar = document.querySelector(".inceptionhub-sidebar");
+  if (!sidebar) {
+    sidebar = document.createElement("aside");
+    sidebar.className = "inceptionhub-sidebar";
+    sidebar.setAttribute("role", "dialog");
+    sidebar.setAttribute("aria-modal", "true");
+    sidebar.setAttribute("aria-label", "Main menu");
+
+    const logoImg = document.querySelector(".logo.logo-pill .logo-img");
+    const logoSrc = logoImg ? logoImg.src : "images/logo.png";
+
+    const inPagesDirectory = /\/Pages\//i.test(window.location.pathname);
+    const homePath = inPagesDirectory ? "../index.html" : "index.html";
+    const pagePrefix = inPagesDirectory ? "" : "Pages/";
+    const navItems = [
+      { label: "Home", path: homePath },
+      { label: "Registration", path: `${pagePrefix}registration.html` },
+      { label: "Legal Registration", path: `${pagePrefix}LegalRegistration.html` },
+      { label: "Online Presence", path: `${pagePrefix}OnlinePresence.html` },
+      {
+        label: "Business Operations",
+        path: `${pagePrefix}BusinessOperations.html`,
+      },
+      { label: "Compliances", path: `${pagePrefix}Compliances.html` },
+    ];
+    const navLinks = navItems
+      .map(
+        (item) => `<a href="${item.path}" class="menu-link">${item.label}</a>`
+      )
+      .join("");
+
+    sidebar.innerHTML = `
+      <div class="menu-header-wrapper">
+        <img src="${logoSrc}" alt="InceptionHub" class="logo-img">
+        <span class="logo-divider" aria-hidden="true"></span>
+        <button class="menu-close-btn" aria-label="Close menu"></button>
+      </div>
+
+      <nav role="navigation" aria-label="Primary">
+        ${navLinks}
+      </nav>
+
+      <div class="menu-footer">Need help? <a href="${homePath}#contact">Contact us</a></div>
+    `;
+    document.body.appendChild(sidebar);
+  }
+
+  const closeBtn = sidebar.querySelector(".menu-close-btn");
+
+  function getFocusable(el) {
+    if (!el) return [];
+    return Array.from(
+      el.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((n) => n.offsetParent !== null);
+  }
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    menuButton.classList.contains("open") ? "true" : "false"
+  );
+  menuButton.setAttribute("aria-controls", "inceptionhub-sidebar");
+  if (!sidebar.id) sidebar.id = "inceptionhub-sidebar";
+
+  function openMenu() {
+    overlay.classList.add("open");
+    sidebar.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    menuButton.classList.add("open");
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
+
+    const sidebarCloseBtn = sidebar.querySelector(".menu-close-btn");
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.classList.add("open");
+    }
+
+    menuButton.__inceptionhub_last_focus = document.activeElement;
+
+    adjustSidebarTop();
+
+    const focusables = getFocusable(sidebar);
+    if (focusables.length) focusables[0].focus();
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+  }
+
+  function closeMenu() {
+    overlay.classList.remove("open");
+    sidebar.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    menuButton.classList.remove("open");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
+
+    const sidebarCloseBtn = sidebar.querySelector(".menu-close-btn");
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.classList.remove("open");
+    }
+
+    try {
+      const prev = menuButton.__inceptionhub_last_focus;
+      if (prev && typeof prev.focus === "function") prev.focus();
+    } catch (e) {}
+
+    document.documentElement.style.overflow = "";
+    document.body.style.touchAction = "";
+  }
+
+  function toggleMenu() {
+    if (sidebar.classList.contains("open")) closeMenu();
+    else openMenu();
+  }
+
+  menuButton.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    toggleMenu();
+  });
+
+  menuButton.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      menuButton.click();
+    }
+  });
+
+  overlay.addEventListener("click", () => closeMenu());
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeMenu();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      const hamburger = closeBtn.querySelector(".logo-hamburger");
+      if (hamburger) {
+        closeBtn.classList.toggle("open");
+      }
+    });
+  }
+
+  function adjustSidebarTop() {
+    sidebar.style.top = "0";
+    sidebar.style.left = "0";
+    sidebar.style.height = "100vh";
+  }
+
+  adjustSidebarTop();
+  window.addEventListener("resize", adjustSidebarTop);
+
+  if (menuButton.classList.contains("open")) {
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
+    overlay.classList.add("open");
+    sidebar.classList.add("open");
+  } else {
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
+    overlay.classList.remove("open");
+    sidebar.classList.remove("open");
+  }
+
+  window.__inceptionhubMenu = {
+    open: openMenu,
+    close: closeMenu,
+    toggle: toggleMenu,
+    adjustTop: adjustSidebarTop,
+  };
+})();
+
+// Logo pill intro animation for pages without the splash overlay
+(function () {
+  if (document.getElementById("splash-overlay")) return;
+
+  const logo = document.querySelector(".logo.logo-pill");
+  if (!logo) return;
+
+  const HIDE_DURATION_MS = 300;
+  const START_HIDE_AFTER_PAINT_MS = 30;
+
+  logo.classList.remove("logo-hidden", "logo-reveal", "no-transition");
+  void logo.offsetWidth;
+
+  setTimeout(() => {
+    logo.classList.add("no-transition");
+    logo.classList.add("logo-hidden");
+    void logo.offsetWidth;
+
+    setTimeout(() => {
+      logo.classList.remove("no-transition");
+      logo.classList.remove("logo-hidden");
+      void logo.offsetWidth;
+      logo.classList.add("logo-reveal");
+    }, HIDE_DURATION_MS);
+  }, START_HIDE_AFTER_PAINT_MS);
+})();
+      window.location.href = targetPath;
+    }, 500);
+  }
+
+  // Background layers
+  const bgLayer = document.createElement("div");
+  bgLayer.className = "page-bg-layer";
+  document.body.appendChild(bgLayer);
+
+  const bgLayer2 = document.createElement("div");
+  bgLayer2.className = "page-bg-layer page-bg-layer-2";
+  document.body.appendChild(bgLayer2);
+
+  let currentBgLayer = bgLayer;
+  let nextBgLayer = bgLayer2;
+  let isTransitioningBg = false;
+  let isFirstRender = true;
+
+  // Progress bar
+  const progressWrap = document.createElement("div");
+  progressWrap.className = "page-progress";
+  progressWrap.setAttribute("aria-hidden", "true");
+  const progressBar = document.createElement("div");
+  progressBar.className = "bar";
+  const pct = document.createElement("div");
+  pct.className = "pct";
+  pct.textContent = "0%";
+  progressWrap.appendChild(progressBar);
+  progressWrap.appendChild(pct);
+  document.body.appendChild(progressWrap);
+
+  // smooth movement
+  progressBar.style.transition = "width 1s ease-in-out";
+
+  // Stage state
+  let currentStage = 0;
+  let previousStage = 0;
+
+  // Scroll snap state
+  let isAnimatingScroll = false;
+  const SCROLL_LOCK_TIME = 900;
+
+  function playStageRevealAnimation() {
+    if (!stageIcon || !stageCta) return;
+    stageIcon.classList.add("no-transition");
+    stageCta.classList.add("no-transition");
+    stageIcon.classList.remove("revealed");
+    stageCta.classList.remove("revealed");
+    void stageIcon.offsetWidth;
+    stageIcon.classList.remove("no-transition");
+    stageCta.classList.remove("no-transition");
+    requestAnimationFrame(() => {
+      stageIcon.classList.add("revealed");
+      stageCta.classList.add("revealed");
+    });
+  }
+
+  function playHeroRevealAnimation() {
+    const heroTagline = document.querySelector(".hero-tagline");
+    const watchBtn = document.querySelector(".watch-btn");
+    if (!heroTagline || !watchBtn) return;
+
+    heroTagline.classList.add("no-transition");
+    watchBtn.classList.add("no-transition");
+    heroTagline.classList.remove("hero-revealed");
+    watchBtn.classList.remove("hero-revealed");
+    void heroTagline.offsetWidth;
+    void watchBtn.offsetWidth;
+
+    heroTagline.classList.remove("no-transition");
+    watchBtn.classList.remove("no-transition");
+    requestAnimationFrame(() => {
+      heroTagline.classList.add("hero-revealed");
+      watchBtn.classList.add("hero-revealed");
+    });
+  }
+
+  function setBackgroundImmediate(newBg) {
+    const newBgValue = newBg || "transparent";
+    currentBgLayer.style.backgroundImage = newBgValue;
+    if (newBgValue !== "transparent") {
+      currentBgLayer.style.opacity = "1";
+      currentBgLayer.classList.add("visible");
+    } else {
+      currentBgLayer.style.opacity = "0";
+      currentBgLayer.classList.remove("visible");
+    }
+  }
+
+  function setBackgroundWithFade(newBg) {
+    if (isTransitioningBg) return;
+
+    const newBgValue = newBg || "transparent";
+    const currentBgValue = currentBgLayer.style.backgroundImage;
+
+    if (
+      newBgValue === currentBgValue &&
+      currentBgLayer.classList.contains("visible")
+    ) {
+      return;
+    }
+
+    if (
+      !currentBgLayer.style.backgroundImage ||
+      currentBgLayer.style.backgroundImage === "none" ||
+      !currentBgLayer.classList.contains("visible")
+    ) {
+      setBackgroundImmediate(newBgValue);
+      return;
+    }
+
+    isTransitioningBg = true;
+
+    nextBgLayer.style.backgroundImage = newBgValue;
+    nextBgLayer.style.opacity = "0";
+    nextBgLayer.classList.add("visible");
+
+    void nextBgLayer.offsetWidth;
+
+    currentBgLayer.style.opacity = "0";
+    nextBgLayer.style.transition =
+      "opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+    nextBgLayer.style.opacity = "1";
+
+    setTimeout(() => {
+      currentBgLayer.classList.remove("visible");
+      currentBgLayer.style.opacity = "0";
+      currentBgLayer.style.backgroundImage = "";
+
+      const temp = currentBgLayer;
+      currentBgLayer = nextBgLayer;
+      nextBgLayer = temp;
+
+      isTransitioningBg = false;
+    }, 800);
+  }
+
+  // 🔸 NEW: progress starts partially filled at stage 0
+  function updateProgressForStage(stageIndex) {
+    if (TOTAL_STAGES <= 0) {
+      progressBar.style.width = "0%";
+      pct.textContent = "0%";
+      return;
+    }
+    const clampedIndex = Math.max(0, Math.min(stageIndex, TOTAL_STAGES - 1));
+    const percent = Math.round(((clampedIndex + 1) / TOTAL_STAGES) * 100);
+    progressBar.style.width = percent + "%";
+    pct.textContent = percent + "%";
+  }
+
+  function renderStage(index) {
+    const stage = stageConfigs[index];
+
+    icons.forEach((icon, idx) => {
+      icon.classList.toggle(
+        "focused",
+        stage?.type === "icon" && stage.iconIndex === idx
+      );
+    });
+
+    if (!stage) {
+      setBackgroundWithFade("transparent");
+      setTimeout(() => {
+        currentBgLayer.classList.remove("visible");
+        nextBgLayer.classList.remove("visible");
+      }, 800);
+      stageOverlay?.classList.remove("active");
+      heroWrapper?.classList.remove("stage-muted");
+      if (footer) footer.classList.remove("footer-visible");
+      if (previousStage > 0) {
+        setTimeout(() => {
+          playHeroRevealAnimation();
+        }, 50);
+      }
+      return;
+    }
+
+    if (isFirstRender) {
+      setBackgroundImmediate(stage.bg || "transparent");
+      isFirstRender = false;
+    } else {
+      setBackgroundWithFade(stage.bg || "transparent");
+    }
+
+    if (stage.type === "icon" && stageOverlay) {
+      heroWrapper?.classList.add("stage-muted");
+      stageIcon.src = stage.iconSrc || "";
+      stageIcon.alt = stage.title || "";
+      stageTitle.textContent = stage.title || "";
+      stageText.textContent = stage.text || "";
+      stageCta.textContent = stage.cta || "Learn more";
+      
+      // Set the data attribute for the CTA button so it knows which page to navigate to
+      stageCta.setAttribute("data-icon-index", stage.ctaIndex);
+      
+      playStageRevealAnimation();
+      stageOverlay.classList.add("active");
+      if (footer) footer.classList.remove("footer-visible");
+    } else if (stage.type === "footer") {
+      if (stageOverlay) stageOverlay.classList.remove("active");
+      if (heroWrapper) heroWrapper.classList.remove("stage-muted");
+      if (stageIcon) stageIcon.classList.remove("revealed");
+      if (stageCta) stageCta.classList.remove("revealed");
+      if (footer) footer.classList.add("footer-visible");
+    } else {
+      heroWrapper?.classList.remove("stage-muted");
+      if (stageIcon) stageIcon.classList.remove("revealed");
+      if (stageCta) stageCta.classList.remove("revealed");
+      if (stageOverlay) stageOverlay.classList.remove("active");
+      if (footer) footer.classList.remove("footer-visible");
+    }
+
+    updateProgressForStage(index);
+  }
+
+  function goToStage(targetStage, options = {}) {
+    const { animateScroll = true, fromUserScroll = false } = options;
+
+    if (targetStage < 0 || targetStage >= TOTAL_STAGES) return;
+    if (targetStage === currentStage) return;
+    if (fromUserScroll && isAnimatingScroll) return;
+
+    previousStage = currentStage;
+    currentStage = targetStage;
+    renderStage(currentStage);
+
+    const stage = stageConfigs[currentStage];
+
+    if (stage.type === "footer") {
+      isAnimatingScroll = true;
+      setTimeout(() => {
+        isAnimatingScroll = false;
+      }, SCROLL_LOCK_TIME);
+      return;
+    }
+
+    if (currentStage === 0) {
+      isAnimatingScroll = true;
+      if (animateScroll) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo(0, 0);
+      }
+      setTimeout(() => {
+        isAnimatingScroll = false;
+      }, animateScroll ? SCROLL_LOCK_TIME : 0);
+    } else {
+      const targetPanel = panels.find(
+        (panel) =>
+          parseInt(panel.getAttribute("data-stage-index"), 10) === currentStage
+      );
+
+      if (targetPanel) {
+        isAnimatingScroll = true;
+        targetPanel.scrollIntoView({
+          behavior: animateScroll ? "smooth" : "auto",
+          block: "start",
+        });
+        setTimeout(
+          () => {
+            isAnimatingScroll = false;
+          },
+          animateScroll ? SCROLL_LOCK_TIME : 0
+        );
+      } else {
+        isAnimatingScroll = true;
+        setTimeout(() => {
+          isAnimatingScroll = false;
+        }, SCROLL_LOCK_TIME);
+      }
+    }
+  }
+
+  function resetToIndexZero() {
+    currentStage = 0;
+    previousStage = 0;
+    isAnimatingScroll = false;
+
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    if (footer) {
+      footer.classList.remove("footer-visible");
+    }
+
+    bgLayer.classList.remove("visible");
+    bgLayer.style.backgroundImage = "";
+    bgLayer.style.opacity = "0";
+    bgLayer2.classList.remove("visible");
+    bgLayer2.style.backgroundImage = "";
+    bgLayer2.style.opacity = "0";
+    isTransitioningBg = false;
+    currentBgLayer = bgLayer;
+    nextBgLayer = bgLayer2;
+
+    isFirstRender = true;
+
+    icons.forEach((icon) => {
+      icon.classList.remove("focused");
+    });
+
+    renderStage(0);
+    if (stageOverlay) {
+      stageOverlay.classList.remove("active");
+    }
+    if (heroWrapper) {
+      heroWrapper.classList.remove("stage-muted");
+    }
+  }
+
+  resetToIndexZero();
+  setTimeout(resetToIndexZero, 0);
+  setTimeout(resetToIndexZero, 10);
+  setTimeout(resetToIndexZero, 100);
+
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) {
+      setTimeout(() => {
+        resetToIndexZero();
+      }, 50);
+    }
+  });
+
+  window.addEventListener("focus", function () {
+    setTimeout(function () {
+      if (window.scrollY === 0) {
+        resetToIndexZero();
+      }
+    }, 10);
+  });
+
+  // SNAP SCROLL
+  function handleWheel(e) {
+    e.preventDefault();
+    if (isAnimatingScroll) return;
+
+    const delta = e.deltaY;
+    if (Math.abs(delta) < 10) return;
+
+    if (delta > 0) {
+      const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+      goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+    } else {
+      const prevStage = Math.max(0, currentStage - 1);
+      goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+    }
+  }
+
+  window.addEventListener("wheel", handleWheel, { passive: false });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (isAnimatingScroll) return;
+
+    if (e.key === "ArrowDown" || e.key === "PageDown") {
+      e.preventDefault();
+      const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+      goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+    } else if (e.key === "ArrowUp" || e.key === "PageUp") {
+      e.preventDefault();
+      const prevStage = Math.max(0, currentStage - 1);
+      goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+    }
+  });
+
+  // ICON CLICK
+  icons.forEach((icon, idx) => {
+    icon.addEventListener("click", (e) => {
+      const sidebar = document.querySelector(".inceptionhub-sidebar");
+      if (sidebar && sidebar.classList.contains("open")) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+
+      const stageIndex = idx + 1; // 1..5
+      goToStage(stageIndex, { animateScroll: true });
+
+      navigateToStagePage(idx);
+      return false;
+    });
+  });
+
+  // CTA BUTTON CLICK - UPDATED
+  if (stageCta) {
+    stageCta.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const iconIdxAttr = stageCta.getAttribute("data-icon-index");
+      if (iconIdxAttr === null || iconIdxAttr === undefined) {
+        console.warn("No data-icon-index attribute found on CTA button");
+        return;
+      }
+      
+      const iconIdx = parseInt(iconIdxAttr, 10);
+      if (isNaN(iconIdx) || iconIdx < 0 || iconIdx >= pageMap.length) {
+        console.warn("Invalid icon index:", iconIdx);
+        return;
+      }
+
+      navigateToStagePage(iconIdx);
+      return false;
+    });
+  }
+});
+
+/* InceptionHub menu/sidebar injector with hamburger->X morph */
+(function () {
+  "use strict";
+
+  const menuButton = document.querySelector(".logo.logo-pill .logo-menu");
+  if (!menuButton) return;
+
+  if (menuButton.__inceptionhub_menu_installed) return;
+  menuButton.__inceptionhub_menu_installed = true;
+
+  let overlay = document.querySelector(".inceptionhub-overlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.className = "inceptionhub-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.tabIndex = -1;
+    document.body.appendChild(overlay);
+  }
+
+  let sidebar = document.querySelector(".inceptionhub-sidebar");
+  if (!sidebar) {
+    sidebar = document.createElement("aside");
+    sidebar.className = "inceptionhub-sidebar";
+    sidebar.setAttribute("role", "dialog");
+    sidebar.setAttribute("aria-modal", "true");
+    sidebar.setAttribute("aria-label", "Main menu");
+
+    const logoImg = document.querySelector(".logo.logo-pill .logo-img");
+    const logoSrc = logoImg ? logoImg.src : "images/logo.png";
+
+    const inPagesDirectory = /\/Pages\//i.test(window.location.pathname);
+    const homePath = inPagesDirectory ? "../index.html" : "index.html";
+    const pagePrefix = inPagesDirectory ? "" : "Pages/";
+    const navItems = [
+      { label: "Home", path: homePath },
+      { label: "Registration", path: `${pagePrefix}registration.html` },
+      { label: "Legal Registration", path: `${pagePrefix}LegalRegistration.html` },
+      { label: "Online Presence", path: `${pagePrefix}OnlinePresence.html` },
+      {
+        label: "Business Operations",
+        path: `${pagePrefix}BusinessOperations.html`,
+      },
+      { label: "Compliances", path: `${pagePrefix}Compliances.html` },
+    ];
+    const navLinks = navItems
+      .map(
+        (item) => `<a href="${item.path}" class="menu-link">${item.label}</a>`
+      )
+      .join("");
+
+    sidebar.innerHTML = `
+      <div class="menu-header-wrapper">
+        <img src="${logoSrc}" alt="InceptionHub" class="logo-img">
+        <span class="logo-divider" aria-hidden="true"></span>
+        <button class="menu-close-btn" aria-label="Close menu"></button>
+      </div>
+
+      <nav role="navigation" aria-label="Primary">
+        ${navLinks}
+      </nav>
+
+      <div class="menu-footer">Need help? <a href="${homePath}#contact">Contact us</a></div>
+    `;
+    document.body.appendChild(sidebar);
+  }
+
+  const closeBtn = sidebar.querySelector(".menu-close-btn");
+
+  function getFocusable(el) {
+    if (!el) return [];
+    return Array.from(
+      el.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((n) => n.offsetParent !== null);
+  }
+
+  menuButton.setAttribute(
+    "aria-expanded",
+    menuButton.classList.contains("open") ? "true" : "false"
+  );
+  menuButton.setAttribute("aria-controls", "inceptionhub-sidebar");
+  if (!sidebar.id) sidebar.id = "inceptionhub-sidebar";
+
+  function openMenu() {
+    overlay.classList.add("open");
+    sidebar.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    menuButton.classList.add("open");
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
+
+    const sidebarCloseBtn = sidebar.querySelector(".menu-close-btn");
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.classList.add("open");
+    }
+
+    menuButton.__inceptionhub_last_focus = document.activeElement;
+
+    adjustSidebarTop();
+
+    const focusables = getFocusable(sidebar);
+    if (focusables.length) focusables[0].focus();
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+  }
+
+  function closeMenu() {
+    overlay.classList.remove("open");
+    sidebar.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    menuButton.classList.remove("open");
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
+
+    const sidebarCloseBtn = sidebar.querySelector(".menu-close-btn");
+    if (sidebarCloseBtn) {
+      sidebarCloseBtn.classList.remove("open");
+    }
+
+    try {
+      const prev = menuButton.__inceptionhub_last_focus;
+      if (prev && typeof prev.focus === "function") prev.focus();
+    } catch (e) {}
+
+    document.documentElement.style.overflow = "";
+    document.body.style.touchAction = "";
+  }
+
+  function toggleMenu() {
+    if (sidebar.classList.contains("open")) closeMenu();
+    else openMenu();
+  }
+
+  menuButton.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    toggleMenu();
+  });
+
+  menuButton.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      menuButton.click();
+    }
+  });
+
+  overlay.addEventListener("click", () => closeMenu());
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeMenu();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      const hamburger = closeBtn.querySelector(".logo-hamburger");
+      if (hamburger) {
+        closeBtn.classList.toggle("open");
+      }
+    });
+  }
+
+  function adjustSidebarTop() {
+    sidebar.style.top = "0";
+    sidebar.style.left = "0";
+    sidebar.style.height = "100vh";
+  }
+
+  adjustSidebarTop();
+  window.addEventListener("resize", adjustSidebarTop);
+
+  if (menuButton.classList.contains("open")) {
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close menu");
+    overlay.classList.add("open");
+    sidebar.classList.add("open");
+  } else {
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open menu");
+    overlay.classList.remove("open");
+    sidebar.classList.remove("open");
+  }
+
+  window.__inceptionhubMenu = {
+    open: openMenu,
+    close: closeMenu,
+    toggle: toggleMenu,
+    adjustTop: adjustSidebarTop,
+  };
+})();
+
+// Logo pill intro animation for pages without the splash overlay
+(function () {
+  if (document.getElementById("splash-overlay")) return;
+
+  const logo = document.querySelector(".logo.logo-pill");
+  if (!logo) return;
+
+  const HIDE_DURATION_MS = 300;
+  const START_HIDE_AFTER_PAINT_MS = 30;
+
+  logo.classList.remove("logo-hidden", "logo-reveal", "no-transition");
+  void logo.offsetWidth;
+
+  setTimeout(() => {
+    logo.classList.add("no-transition");
+    logo.classList.add("logo-hidden");
+    void logo.offsetWidth;
+
+    setTimeout(() => {
+      logo.classList.remove("no-transition");
+      logo.classList.remove("logo-hidden");
+      void logo.offsetWidth;
+      logo.classList.add("logo-reveal");
+    }, HIDE_DURATION_MS);
+  }, START_HIDE_AFTER_PAINT_MS);
+})();
