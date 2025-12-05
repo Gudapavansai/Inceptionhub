@@ -286,10 +286,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // Background layers
   const bgLayer = document.createElement("div");
   bgLayer.className = "page-bg-layer";
+  // Enable hardware acceleration for smooth transitions on mobile
+  bgLayer.style.transform = "translateZ(0)";
+  bgLayer.style.webkitTransform = "translateZ(0)";
+  bgLayer.style.willChange = "opacity";
   document.body.appendChild(bgLayer);
 
   const bgLayer2 = document.createElement("div");
   bgLayer2.className = "page-bg-layer page-bg-layer-2";
+  // Enable hardware acceleration for smooth transitions on mobile
+  bgLayer2.style.transform = "translateZ(0)";
+  bgLayer2.style.webkitTransform = "translateZ(0)";
+  bgLayer2.style.willChange = "opacity";
   document.body.appendChild(bgLayer2);
 
   let currentBgLayer = bgLayer;
@@ -629,6 +637,160 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("wheel", handleWheel, { passive: false });
 
+  // TOUCH EVENT HANDLERS FOR MOBILE DEVICES
+  let touchStartY = 0;
+  let touchEndY = 0;
+  let touchStartTime = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const MIN_SWIPE_DISTANCE = 50; // Minimum distance for swipe detection
+  const MAX_SWIPE_TIME = 500; // Maximum time for swipe (ms)
+  const MAX_HORIZONTAL_SWIPE = 30; // Maximum horizontal movement to consider it vertical swipe
+
+  function handleTouchStart(e) {
+    // Don't interfere with sidebar or other interactive elements
+    const sidebar = document.querySelector(".inceptionhub-sidebar");
+    if (sidebar && sidebar.classList.contains("open")) {
+      return;
+    }
+
+    // Don't interfere with icon clicks, buttons, or links
+    const target = e.target;
+    if (target.closest(".icon-item") || 
+        target.closest(".stage-cta") || 
+        target.closest(".watch-btn") ||
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest(".inceptionhub-sidebar")) {
+      return;
+    }
+
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+    touchStartTime = Date.now();
+  }
+
+  function handleTouchMove(e) {
+    // Prevent default scrolling behavior when we're handling touch
+    const sidebar = document.querySelector(".inceptionhub-sidebar");
+    if (sidebar && sidebar.classList.contains("open")) {
+      return;
+    }
+
+    // Don't interfere with icon clicks or buttons
+    const target = e.target;
+    if (target.closest(".icon-item") || 
+        target.closest(".stage-cta") || 
+        target.closest(".watch-btn") ||
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest(".inceptionhub-sidebar")) {
+      return;
+    }
+
+    // Only prevent default if we're not animating and it's a vertical swipe
+    if (!isAnimatingScroll) {
+      const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
+      const deltaY = Math.abs(currentY - touchStartY);
+      const deltaX = Math.abs(currentX - touchStartX);
+      
+      // Only prevent default if it's primarily a vertical swipe
+      if (deltaY > deltaX && deltaY > 10) {
+        e.preventDefault();
+      }
+    }
+  }
+
+  function handleTouchEnd(e) {
+    // Don't interfere with sidebar or interactive elements
+    const sidebar = document.querySelector(".inceptionhub-sidebar");
+    if (sidebar && sidebar.classList.contains("open")) {
+      return;
+    }
+
+    // Don't interfere with icon clicks or buttons
+    const target = e.target;
+    if (target.closest(".icon-item") || 
+        target.closest(".stage-cta") || 
+        target.closest(".watch-btn") ||
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest(".inceptionhub-sidebar")) {
+      return;
+    }
+
+    if (isAnimatingScroll) return;
+
+    touchEndY = e.changedTouches[0].clientY;
+    touchEndX = e.changedTouches[0].clientX;
+    const touchEndTime = Date.now();
+    const swipeDistanceY = touchStartY - touchEndY;
+    const swipeDistanceX = Math.abs(touchStartX - touchEndX);
+    const swipeTime = touchEndTime - touchStartTime;
+
+    // Check if it's a valid vertical swipe (not horizontal)
+    if (Math.abs(swipeDistanceY) >= MIN_SWIPE_DISTANCE && 
+        swipeTime <= MAX_SWIPE_TIME &&
+        swipeDistanceX < MAX_HORIZONTAL_SWIPE) {
+      if (swipeDistanceY > 0) {
+        // Swipe up - go to next stage
+        const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+        goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+      } else {
+        // Swipe down - go to previous stage
+        const prevStage = Math.max(0, currentStage - 1);
+        goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+      }
+    }
+  }
+
+  // Add touch event listeners for mobile devices
+  // Use capture phase to ensure we catch events before other handlers
+  document.addEventListener("touchstart", handleTouchStart, { passive: true, capture: false });
+  document.addEventListener("touchmove", handleTouchMove, { passive: false, capture: false });
+  document.addEventListener("touchend", handleTouchEnd, { passive: true, capture: false });
+
+  // Also listen for scroll events on mobile as fallback
+  let lastScrollTop = 0;
+  let scrollTimeout = null;
+  function handleMobileScroll() {
+    if (isAnimatingScroll) return;
+    
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollDifference = Math.abs(currentScrollTop - lastScrollTop);
+    
+    // Clear existing timeout
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+    
+    // If user scrolled significantly, trigger stage change
+    if (scrollDifference > 100) {
+      scrollTimeout = setTimeout(() => {
+        if (currentScrollTop > lastScrollTop) {
+          // Scrolled down - go to next stage
+          const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+          if (nextStage !== currentStage) {
+            goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+          }
+        } else {
+          // Scrolled up - go to previous stage
+          const prevStage = Math.max(0, currentStage - 1);
+          if (prevStage !== currentStage) {
+            goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+          }
+        }
+        lastScrollTop = currentScrollTop;
+      }, 150);
+    }
+  }
+
+  // Add scroll listener for mobile fallback (only on touch devices)
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    window.addEventListener("scroll", handleMobileScroll, { passive: true });
+  }
+
   // Keyboard navigation
   document.addEventListener("keydown", (e) => {
     if (isAnimatingScroll) return;
@@ -911,10 +1073,18 @@ document.addEventListener("DOMContentLoaded", function () {
   // Background layers
   const bgLayer = document.createElement("div");
   bgLayer.className = "page-bg-layer";
+  // Enable hardware acceleration for smooth transitions on mobile
+  bgLayer.style.transform = "translateZ(0)";
+  bgLayer.style.webkitTransform = "translateZ(0)";
+  bgLayer.style.willChange = "opacity";
   document.body.appendChild(bgLayer);
 
   const bgLayer2 = document.createElement("div");
   bgLayer2.className = "page-bg-layer page-bg-layer-2";
+  // Enable hardware acceleration for smooth transitions on mobile
+  bgLayer2.style.transform = "translateZ(0)";
+  bgLayer2.style.webkitTransform = "translateZ(0)";
+  bgLayer2.style.willChange = "opacity";
   document.body.appendChild(bgLayer2);
 
   let currentBgLayer = bgLayer;
@@ -1347,8 +1517,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const pagePrefix = inPagesDirectory ? "" : "Pages/";
     const navItems = [
       { label: "Home", path: homePath },
-      { label: "Registration", path: `${pagePrefix}Registration.html` },
-      
+      { label: "Registration", path: `${pagePrefix}registration.html` },
       { label: "Legal Registration", path: `${pagePrefix}LegalRegistration.html` },
       { label: "Online Presence", path: `${pagePrefix}OnlinePresence.html` },
       {
