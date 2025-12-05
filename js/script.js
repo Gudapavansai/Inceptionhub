@@ -1347,7 +1347,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const pagePrefix = inPagesDirectory ? "" : "Pages/";
     const navItems = [
       { label: "Home", path: homePath },
-      { label: "Registration", path: `${pagePrefix}registration.html` },
+      { label: "Registration", path: `${pagePrefix}Registration.html` },
+      
       { label: "Legal Registration", path: `${pagePrefix}LegalRegistration.html` },
       { label: "Online Presence", path: `${pagePrefix}OnlinePresence.html` },
       {
