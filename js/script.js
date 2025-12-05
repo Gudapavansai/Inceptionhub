@@ -637,15 +637,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("wheel", handleWheel, { passive: false });
 
-  // TOUCH EVENT HANDLERS FOR MOBILE DEVICES
+  // MOBILE TOUCH SCROLLING HANDLERS - Enhanced for deployment
   let touchStartY = 0;
   let touchEndY = 0;
   let touchStartTime = 0;
   let touchStartX = 0;
   let touchEndX = 0;
-  const MIN_SWIPE_DISTANCE = 50; // Minimum distance for swipe detection
-  const MAX_SWIPE_TIME = 500; // Maximum time for swipe (ms)
-  const MAX_HORIZONTAL_SWIPE = 30; // Maximum horizontal movement to consider it vertical swipe
+  let isTouchActive = false;
+  const MIN_SWIPE_DISTANCE = 60; // Minimum distance for swipe detection
+  const MAX_SWIPE_TIME = 600; // Maximum time for swipe (ms)
+  const MAX_HORIZONTAL_SWIPE = 50; // Maximum horizontal movement to consider it vertical swipe
+
+  // Detect if device is mobile/touch
+  const isMobileDevice = (function() {
+    try {
+      return ('ontouchstart' in window) || 
+             (navigator.maxTouchPoints > 0) || 
+             (navigator.msMaxTouchPoints > 0) ||
+             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    } catch(e) {
+      return false;
+    }
+  })();
 
   function handleTouchStart(e) {
     // Don't interfere with sidebar or other interactive elements
@@ -656,53 +669,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Don't interfere with icon clicks, buttons, or links
     const target = e.target;
-    if (target.closest(".icon-item") || 
+    if (target && (
+        target.closest(".icon-item") || 
         target.closest(".stage-cta") || 
         target.closest(".watch-btn") ||
         target.closest("a") ||
         target.closest("button") ||
-        target.closest(".inceptionhub-sidebar")) {
+        target.closest(".inceptionhub-sidebar") ||
+        target.closest(".page-progress") ||
+        target.closest(".main-footer")
+    )) {
       return;
     }
 
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-    touchStartTime = Date.now();
+    if (e.touches && e.touches.length > 0) {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      touchStartTime = Date.now();
+      isTouchActive = true;
+    }
   }
 
   function handleTouchMove(e) {
-    // Prevent default scrolling behavior when we're handling touch
+    if (!isTouchActive) return;
+
+    // Don't interfere with sidebar
     const sidebar = document.querySelector(".inceptionhub-sidebar");
     if (sidebar && sidebar.classList.contains("open")) {
       return;
     }
 
-    // Don't interfere with icon clicks or buttons
+    // Don't interfere with interactive elements
     const target = e.target;
-    if (target.closest(".icon-item") || 
+    if (target && (
+        target.closest(".icon-item") || 
         target.closest(".stage-cta") || 
         target.closest(".watch-btn") ||
         target.closest("a") ||
         target.closest("button") ||
-        target.closest(".inceptionhub-sidebar")) {
+        target.closest(".inceptionhub-sidebar")
+    )) {
       return;
     }
 
-    // Only prevent default if we're not animating and it's a vertical swipe
-    if (!isAnimatingScroll) {
+    // Allow native scrolling but track movement
+    if (e.touches && e.touches.length > 0 && !isAnimatingScroll) {
       const currentY = e.touches[0].clientY;
       const currentX = e.touches[0].clientX;
       const deltaY = Math.abs(currentY - touchStartY);
       const deltaX = Math.abs(currentX - touchStartX);
       
-      // Only prevent default if it's primarily a vertical swipe
-      if (deltaY > deltaX && deltaY > 10) {
-        e.preventDefault();
+      // Only prevent default for clear vertical swipes (not scrolling)
+      if (deltaY > 30 && deltaY > deltaX * 2) {
+        // This is a swipe, not a scroll - allow it to proceed
       }
     }
   }
 
   function handleTouchEnd(e) {
+    if (!isTouchActive) return;
+    isTouchActive = false;
+
     // Don't interfere with sidebar or interactive elements
     const sidebar = document.querySelector(".inceptionhub-sidebar");
     if (sidebar && sidebar.classList.contains("open")) {
@@ -711,83 +738,107 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Don't interfere with icon clicks or buttons
     const target = e.target;
-    if (target.closest(".icon-item") || 
+    if (target && (
+        target.closest(".icon-item") || 
         target.closest(".stage-cta") || 
         target.closest(".watch-btn") ||
         target.closest("a") ||
         target.closest("button") ||
-        target.closest(".inceptionhub-sidebar")) {
+        target.closest(".inceptionhub-sidebar")
+    )) {
       return;
     }
 
     if (isAnimatingScroll) return;
 
-    touchEndY = e.changedTouches[0].clientY;
-    touchEndX = e.changedTouches[0].clientX;
-    const touchEndTime = Date.now();
-    const swipeDistanceY = touchStartY - touchEndY;
-    const swipeDistanceX = Math.abs(touchStartX - touchEndX);
-    const swipeTime = touchEndTime - touchStartTime;
+    if (e.changedTouches && e.changedTouches.length > 0) {
+      touchEndY = e.changedTouches[0].clientY;
+      touchEndX = e.changedTouches[0].clientX;
+      const touchEndTime = Date.now();
+      const swipeDistanceY = touchStartY - touchEndY;
+      const swipeDistanceX = Math.abs(touchStartX - touchEndX);
+      const swipeTime = touchEndTime - touchStartTime;
 
-    // Check if it's a valid vertical swipe (not horizontal)
-    if (Math.abs(swipeDistanceY) >= MIN_SWIPE_DISTANCE && 
-        swipeTime <= MAX_SWIPE_TIME &&
-        swipeDistanceX < MAX_HORIZONTAL_SWIPE) {
-      if (swipeDistanceY > 0) {
-        // Swipe up - go to next stage
-        const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
-        goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
-      } else {
-        // Swipe down - go to previous stage
-        const prevStage = Math.max(0, currentStage - 1);
-        goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
-      }
-    }
-  }
-
-  // Add touch event listeners for mobile devices
-  // Use capture phase to ensure we catch events before other handlers
-  document.addEventListener("touchstart", handleTouchStart, { passive: true, capture: false });
-  document.addEventListener("touchmove", handleTouchMove, { passive: false, capture: false });
-  document.addEventListener("touchend", handleTouchEnd, { passive: true, capture: false });
-
-  // Also listen for scroll events on mobile as fallback
-  let lastScrollTop = 0;
-  let scrollTimeout = null;
-  function handleMobileScroll() {
-    if (isAnimatingScroll) return;
-    
-    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollDifference = Math.abs(currentScrollTop - lastScrollTop);
-    
-    // Clear existing timeout
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout);
-    }
-    
-    // If user scrolled significantly, trigger stage change
-    if (scrollDifference > 100) {
-      scrollTimeout = setTimeout(() => {
-        if (currentScrollTop > lastScrollTop) {
-          // Scrolled down - go to next stage
+      // Check if it's a valid vertical swipe (not horizontal)
+      if (Math.abs(swipeDistanceY) >= MIN_SWIPE_DISTANCE && 
+          swipeTime <= MAX_SWIPE_TIME &&
+          swipeDistanceX < MAX_HORIZONTAL_SWIPE) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (swipeDistanceY > 0) {
+          // Swipe up - go to next stage
           const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
           if (nextStage !== currentStage) {
             goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
           }
         } else {
+          // Swipe down - go to previous stage
+          const prevStage = Math.max(0, currentStage - 1);
+          if (prevStage !== currentStage) {
+            goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
+          }
+        }
+      }
+    }
+  }
+
+  // Add touch event listeners for mobile devices
+  if (isMobileDevice) {
+    document.addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.addEventListener("touchmove", handleTouchMove, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
+  }
+
+  // Enhanced scroll-based navigation for mobile (works with native scrolling)
+  let lastScrollTop = 0;
+  let scrollTimeout = null;
+  let scrollDirection = 0;
+  
+  function handleMobileScroll() {
+    if (isAnimatingScroll || !isMobileDevice) return;
+    
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollDifference = currentScrollTop - lastScrollTop;
+    
+    // Clear existing timeout
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = null;
+    }
+    
+    // Track scroll direction
+    if (Math.abs(scrollDifference) > 5) {
+      scrollDirection = scrollDifference > 0 ? 1 : -1;
+    }
+    
+    // Debounce scroll detection
+    scrollTimeout = setTimeout(() => {
+      const finalScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      const totalScrollDiff = Math.abs(finalScrollTop - lastScrollTop);
+      
+      // If user scrolled significantly (more than 80px), trigger stage change
+      if (totalScrollDiff > 80) {
+        if (scrollDirection > 0) {
+          // Scrolled down - go to next stage
+          const nextStage = Math.min(TOTAL_STAGES - 1, currentStage + 1);
+          if (nextStage !== currentStage) {
+            goToStage(nextStage, { animateScroll: true, fromUserScroll: true });
+          }
+        } else if (scrollDirection < 0) {
           // Scrolled up - go to previous stage
           const prevStage = Math.max(0, currentStage - 1);
           if (prevStage !== currentStage) {
             goToStage(prevStage, { animateScroll: true, fromUserScroll: true });
           }
         }
-        lastScrollTop = currentScrollTop;
-      }, 150);
-    }
+        lastScrollTop = finalScrollTop;
+      }
+    }, 200);
   }
 
-  // Add scroll listener for mobile fallback (only on touch devices)
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+  // Add scroll listener for mobile devices
+  if (isMobileDevice) {
     window.addEventListener("scroll", handleMobileScroll, { passive: true });
   }
 
@@ -1065,6 +1116,39 @@ document.addEventListener("DOMContentLoaded", function () {
       logo.classList.add("logo-reveal");
     }, HIDE_DURATION_MS);
   }, START_HIDE_AFTER_PAINT_MS);
+})();
+
+// Final mobile scrolling initialization - ensures it works after deployment
+(function() {
+  'use strict';
+  
+  // Double-check mobile detection and ensure scrolling is enabled
+  const isMobile = ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0) || 
+                   (navigator.msMaxTouchPoints > 0) ||
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // Ensure body allows scrolling
+    if (document.body) {
+      document.body.style.overflowY = 'auto';
+      document.body.style.touchAction = 'pan-y pan-x';
+    }
+    
+    // Ensure html allows scrolling
+    if (document.documentElement) {
+      document.documentElement.style.overflowY = 'auto';
+    }
+    
+    // Ensure scroll panels exist and are scrollable
+    const scrollPanels = document.querySelectorAll('.icon-scroll-panel');
+    scrollPanels.forEach(panel => {
+      if (panel) {
+        panel.style.minHeight = '120vh';
+        panel.style.display = 'block';
+      }
+    });
+  }
 })();
       window.location.href = targetPath;
     }, 500);
@@ -1699,4 +1783,37 @@ document.addEventListener("DOMContentLoaded", function () {
       logo.classList.add("logo-reveal");
     }, HIDE_DURATION_MS);
   }, START_HIDE_AFTER_PAINT_MS);
+})();
+
+// Final mobile scrolling initialization - ensures it works after deployment
+(function() {
+  'use strict';
+  
+  // Double-check mobile detection and ensure scrolling is enabled
+  const isMobile = ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0) || 
+                   (navigator.msMaxTouchPoints > 0) ||
+                   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // Ensure body allows scrolling
+    if (document.body) {
+      document.body.style.overflowY = 'auto';
+      document.body.style.touchAction = 'pan-y pan-x';
+    }
+    
+    // Ensure html allows scrolling
+    if (document.documentElement) {
+      document.documentElement.style.overflowY = 'auto';
+    }
+    
+    // Ensure scroll panels exist and are scrollable
+    const scrollPanels = document.querySelectorAll('.icon-scroll-panel');
+    scrollPanels.forEach(panel => {
+      if (panel) {
+        panel.style.minHeight = '120vh';
+        panel.style.display = 'block';
+      }
+    });
+  }
 })();
