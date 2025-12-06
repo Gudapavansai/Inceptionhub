@@ -3,7 +3,7 @@
 -------------------------------------------------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  height: 100%;
+  width: 100%;
   max-width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -25,7 +25,7 @@ body {
   color: #222;
   position: relative;
   /* Improve touch scrolling on mobile - allow vertical panning */
-  touch-action: pan-y pan-x;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   /* Ensure body can scroll on mobile */
   min-height: 100vh;
@@ -1342,7 +1342,7 @@ body:has(.inceptionhub-sidebar.open) .logo.logo-pill {
   /* Icons section - Move to bottom and display horizontally */
   .icons-section {
     position: fixed !important;
-    bottom: 0 !important;
+    bottom: 24px !important;
     left: 0 !important;
     right: 0 !important;
     transform: none !important;
@@ -1354,7 +1354,7 @@ body:has(.inceptionhub-sidebar.open) .logo.logo-pill {
     gap: 4px;
     padding: 8px 5px;
     padding-bottom: 12px;
-    z-index: 99 !important;
+    z-index: 98 !important;
     width: 100% !important;
     background: rgba(255, 255, 255, 0.95);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -1501,9 +1501,17 @@ body:has(.inceptionhub-sidebar.open) .logo.logo-pill {
     max-height: 40px;
   }
 
-  /* Page progress - Hide on mobile */
+  /* Page progress - Show below icons on mobile */
   .page-progress {
-    display: none;
+    display: block;
+    position: fixed;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    height: 4px;
+    z-index: 100 !important;
+    border-radius: 4px;
+    pointer-events: none;
   }
 
   /* Scroll panels - Ensure they're scrollable */
@@ -1525,12 +1533,17 @@ body:has(.inceptionhub-sidebar.open) .logo.logo-pill {
   /* Ensure body scrolling works */
   body {
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    touch-action: pan-y !important;
+    touch-action: manipulation !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   html {
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
   }
 }
 
