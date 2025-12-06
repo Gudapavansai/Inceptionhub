@@ -257,31 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".icon-scroll-panel")
   );
   const heroWrapper = document.querySelector(".hero-wrapper");
-  const stageOverlay = document.querySelector(".stage-overlay");
-  const stageIcon = stageOverlay?.querySelector(".stage-icon");
-  const stageTitle = stageOverlay?.querySelector(".stage-title");
-  const stageText = stageOverlay?.querySelector(".stage-text");
-  const stageCta = stageOverlay?.querySelector(".stage-cta");
-  const pageMap = [
-    "Pages/Registration.html",
-    "Pages/LegalRegistration.html",
-    "Pages/OnlinePresence.html",
-    "Pages/BusinessOperations.html",
-    "Pages/Compliances.html",
-  ];
-  const fallbackPageMap = pageMap.map((p) => p.replace(/^Pages\//, "pages/"));
   const footer = document.querySelector(".main-footer");
-
-  // Global variable to track current CTA index
-  window.currentCtaIndex = null;
-
-  function navigateToStagePage(iconIdx) {
-    const targetPath = pageMap[iconIdx] || fallbackPageMap[iconIdx];
-    if (!targetPath) return;
-    setTimeout(() => {
-      window.location.href = targetPath;
-    }, 500);
-  }
 
   // Background layers
   const bgLayer = document.createElement("div");
@@ -470,31 +446,29 @@ document.addEventListener("DOMContentLoaded", function () {
       setBackgroundWithFade(stage.bg || "transparent");
     }
 
-    if (stage.type === "icon" && stageOverlay) {
+    if (stage.type === "icon") {
+      const overlayIndex = stage.iconIndex;
+      // Show the corresponding stage overlay for this icon
+      document.querySelectorAll(".stage-overlay").forEach((overlay, idx) => {
+        if (idx === overlayIndex) {
+          overlay.classList.add("active");
+        } else {
+          overlay.classList.remove("active");
+        }
+      });
       heroWrapper?.classList.add("stage-muted");
-      stageIcon.src = stage.iconSrc || "";
-      stageIcon.alt = stage.title || "";
-      stageTitle.textContent = stage.title || "";
-      stageText.textContent = stage.text || "";
-      stageCta.textContent = stage.cta || "Learn more";
-      
-      // Store the icon index for CTA button click handler
-      window.currentCtaIndex = stage.iconIndex;
-      
-      playStageRevealAnimation();
-      stageOverlay.classList.add("active");
       if (footer) footer.classList.remove("footer-visible");
     } else if (stage.type === "footer") {
-      if (stageOverlay) stageOverlay.classList.remove("active");
+      document.querySelectorAll(".stage-overlay").forEach((overlay) => {
+        overlay.classList.remove("active");
+      });
       if (heroWrapper) heroWrapper.classList.remove("stage-muted");
-      if (stageIcon) stageIcon.classList.remove("revealed");
-      if (stageCta) stageCta.classList.remove("revealed");
       if (footer) footer.classList.add("footer-visible");
     } else {
       heroWrapper?.classList.remove("stage-muted");
-      if (stageIcon) stageIcon.classList.remove("revealed");
-      if (stageCta) stageCta.classList.remove("revealed");
-      if (stageOverlay) stageOverlay.classList.remove("active");
+      document.querySelectorAll(".stage-overlay").forEach((overlay) => {
+        overlay.classList.remove("active");
+      });
       if (footer) footer.classList.remove("footer-visible");
     }
 
@@ -869,32 +843,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const stageIndex = idx + 1;
       goToStage(stageIndex, { animateScroll: true });
-
-      navigateToStagePage(idx);
       return false;
     });
   });
 
   // CTA BUTTON CLICK HANDLER
-  if (stageCta) {
-    stageCta.addEventListener("click", function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const ctaIndex = window.currentCtaIndex;
-      
-      if (ctaIndex === null || ctaIndex === undefined) {
-        console.warn("No CTA index set");
-        return false;
+  const ctaButton = document.querySelector(".stage-cta");
+  if (ctaButton) {
+    ctaButton.addEventListener("click", function(e) {
+      // Get the current stage index to determine which page to navigate to
+      const stageIndex = currentStage - 1; // Subtract 1 because stages include hero
+      if (stageIndex >= 0 && stageIndex < pageMap.length) {
+        const targetPage = pageMap[stageIndex];
+        window.location.href = targetPage;
       }
-
-      if (ctaIndex < 0 || ctaIndex >= pageMap.length) {
-        console.warn("Invalid CTA index:", ctaIndex);
-        return false;
-      }
-
-      navigateToStagePage(ctaIndex);
-      return false;
     });
   }
 });
